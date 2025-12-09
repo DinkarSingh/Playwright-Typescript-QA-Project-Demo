@@ -56,12 +56,14 @@ This repository demonstrates setting up Playwright with TypeScript for end-to-en
 
 ## Additional Notes
 
-The UI tests run in headed mode for better debugging.
-The API tests run in headless mode by default.
-Test reports (HTML and JUnit) are generated in the playwright-report folder.
-Environment variables such as USER_EMAIL and USER_PASSWORD should be set in your CI/CD environment for authentication tests.
+- UI tests run in headed mode for better debugging.
+- API tests run in headless mode by default.
+- Test reports (HTML and JUnit) are generated in the playwright-report folder.
+- Environment variables such as USER_EMAIL and USER_PASSWORD should be set in. 
+- your GitHub repository secrets or CI/CD environment for authentication tests.
 
 ## CI/CD
 
-The pipeline is configured to run linting, API tests, UI tests, and collect Playwright reports.
-JUnit and HTML reports are available as pipeline artifacts.
+- GitHub Actions workflow is provided in .github/workflows/playwright.yml.
+- The pipeline runs linting, API tests, UI tests, and collects Playwright reports.
+- JUnit and HTML reports are available as workflow artifacts.
