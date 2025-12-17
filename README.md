@@ -24,7 +24,7 @@ This repository demonstrates setting up Playwright with TypeScript for end-to-en
 
 3. Install Playwright browsers (first time only):
 
-    ```bash
+   ```bash
    npx playwright install
    ```
 
@@ -38,15 +38,15 @@ This repository demonstrates setting up Playwright with TypeScript for end-to-en
 
    Run All Tests
 
-      ```bash
-      npx playwright test
-      ```
+   ```bash
+   npx playwright test
+   ```
 
    Run UI Tests
 
-      ```bash
-      npx playwright test --project='default' --workers=1 --headed
-      ```
+   ```bash
+   npx playwright test --project='default' --workers=1 --headed
+   ```
 
    Run API Tests
 
@@ -59,7 +59,7 @@ This repository demonstrates setting up Playwright with TypeScript for end-to-en
 - UI tests run in headed mode for better debugging.
 - API tests run in headless mode by default.
 - Test reports (HTML and JUnit) are generated in the playwright-report folder.
-- Environment variables such as USER_EMAIL and USER_PASSWORD should be set in. 
+- Environment variables such as USER_EMAIL and USER_PASSWORD should be set in.
 - your GitHub repository secrets or CI/CD environment for authentication tests.
 
 ## CI/CD

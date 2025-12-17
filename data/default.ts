@@ -4,12 +4,12 @@ dotenv.config();
 export const defaultData = {
   apibaseURL: [
     {
-      baseURL: "https://thinking-tester-contact-list.herokuapp.com",
+      baseURL: "https://www.automationexercise.com",
     },
   ],
   uibaseURL: [
     {
-      baseURL: "https://thinking-tester-contact-list.herokuapp.com",
+      baseURL: "https://www.automationexercise.com",
     },
   ],
   userCredentials: [

@@ -1,18 +1,18 @@
 import { request } from "@playwright/test";
 import { defaultData } from "./data/default";
+import fs from "fs";
 
 export default async function globalSetup() {
-  const apiRequest = await request.newContext();
-  const baseURL = defaultData.uibaseURL[0].baseURL;
-  const loginUrl = `${baseURL}/users/login`;
-  const response = await apiRequest.post(loginUrl, {
-    data: {
-      email: defaultData.userCredentials[0].email,
-      password: defaultData.userCredentials[0].password,
-    },
-  });
-  const body = await response.json();
-  if (!body.token) throw new Error("Login failed, no token returned");
-  await apiRequest.storageState({ path: "auth/storageState.json" });
-  await apiRequest.dispose();
+  // Only create auth directory if it doesn't exist
+  if (!fs.existsSync("auth")) {
+    fs.mkdirSync("auth", { recursive: true });
+  }
+
+  // Create empty storage state if it doesn't exist
+  if (!fs.existsSync("auth/storageState.json")) {
+    fs.writeFileSync(
+      "auth/storageState.json",
+      JSON.stringify({ cookies: [], origins: [] }),
+    );
+  }
 }

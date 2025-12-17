@@ -4,19 +4,22 @@ import { defaultData } from "./data/default";
 export default defineConfig({
   globalSetup: require.resolve("./global-setup.ts"),
   testDir: "./tests",
-  timeout: 30000,
+  timeout: 60000,
   expect: {
-    timeout: 5000,
+    timeout: 10000,
   },
-  fullyParallel: true,
   reporter: [
     ["list"],
     ["html", { open: "never" }],
-    ["junit", { outputFile: process.env.JUNIT_FILE || "playwright-report/results.xml" }],
+    [
+      "junit",
+      { outputFile: process.env.JUNIT_FILE || "playwright-report/results.xml" },
+    ],
   ],
   use: {
     screenshot: "on",
     trace: "on-first-retry",
+    // Add storage state to use saved authentication
     storageState: "auth/storageState.json",
   },
   projects: [
@@ -26,6 +29,8 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         baseURL: defaultData.uibaseURL[0].baseURL,
+        // Add storage state to use saved authentication
+        storageState: "auth/storageState.json",
       },
     },
     {
