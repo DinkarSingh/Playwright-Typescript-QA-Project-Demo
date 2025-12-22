@@ -8,6 +8,8 @@ export default defineConfig({
   expect: {
     timeout: 10000,
   },
+  fullyParallel: true,
+  retries: process.env.CI ? 2 : 1,
   reporter: [
     ["list"],
     ["html", { open: "never" }],
@@ -17,8 +19,9 @@ export default defineConfig({
     ],
   ],
   use: {
-    screenshot: "on",
-    trace: "on-first-retry",
+    screenshot: "only-on-failure",
+    video: "retain-on-failure",
+    trace: "retain-on-failure",
     headless: !!process.env.CI,
   },
   projects: [

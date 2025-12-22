@@ -65,16 +65,15 @@ jobs:
         run: npx playwright install
       - name: Run API Tests
         run: npx playwright test --project=public-api --workers=1
-      - name: Upload Playwright API JUnit Report
+      - name: Upload Playwright API Report and Results
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: playwright-api-junit-report
-          path: playwright-report/api-results.xml
-      - name: Upload Playwright HTML Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-html-report
-          path: playwright-report
+          name: playwright-api-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 30
 
   ui_tests:
     runs-on: ubuntu-latest
@@ -95,13 +94,18 @@ jobs:
         run: npx playwright install
       - name: Run UI Tests
         run: npx playwright test --project=default --workers=1
-      - name: Upload Playwright UI JUnit Report
+      - name: Upload Playwright UI Report and Results
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: playwright-ui-junit-report
-          path: playwright-report/ui-results.xml
-      - name: Upload Playwright HTML Report
+          name: playwright-ui-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 30
+      - name: Upload Test Results Summary
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: playwright-html-report
-          path: playwright-report
+          name: test-results-summary
+          path: playwright-report/*.xml

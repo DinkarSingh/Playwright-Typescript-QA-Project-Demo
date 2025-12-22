@@ -1,11 +1,12 @@
 import { test } from "../../fixtures/user";
 import { expect } from "@playwright/test";
+import { handleConsentPopup } from "../../utils/pageHelpers";
 
 test.describe("Create New Contact", () => {
   test.beforeEach(async ({ page, user }) => {
     await user.login();
     await page.goto("/products");
-    await page.getByRole("button", { name: "Consent" }).click();
+    await handleConsentPopup(page);
   });
 
   test("should create a new contact and verify in list", async ({ page }) => {

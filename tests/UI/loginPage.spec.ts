@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
 import { defaultData } from "../../data/default";
+import { navigateAndHandleConsent } from "../../utils/pageHelpers";
 
 test.describe("Login Page Tests", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/login");
-    await page.getByRole("button", { name: "Consent" }).click();
+    await navigateAndHandleConsent(page, "/login");
   });
 
   test("User cannot login with incorrect credentials", async ({ page }) => {
