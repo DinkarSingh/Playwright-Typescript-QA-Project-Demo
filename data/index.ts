@@ -2,15 +2,19 @@ import { z } from "zod";
 import { defaultData } from "./default";
 
 export const apibaseURL = z.object({
-  baseURL: z.string().url(),
+  baseURL: z.url(),
 });
 
 export const uibaseURL = z.object({
-  baseURL: z.string().url(),
+  baseURL: z.url(),
+});
+
+export const publicAPIbaseURL = z.object({
+  baseURL: z.url(),
 });
 
 export const userCredentials = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(8),
 });
 
