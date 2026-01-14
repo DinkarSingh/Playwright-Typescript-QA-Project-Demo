@@ -7,54 +7,71 @@ const userName = faker.person.firstName();
 const userEmail = faker.internet.email();
 const userPassword = faker.internet.password({ length: 10 });
 
+// Helper functions to reduce code repetition
+const navigateToHomepage = async (page: any) => {
+  await page.goto("");
+  await expect(page.getByRole("heading", { name: "conduit" })).toBeVisible();
+};
+
+const navigateToSignIn = async (page: any) => {
+  await page.getByRole("link", { name: "Sign in" }).click();
+};
+
+const navigateToSignUp = async (page: any) => {
+  await page.getByRole("link", { name: "Sign up" }).click();
+  await expect(page.getByRole("heading", { name: "Sign up" })).toBeVisible();
+};
+
+const fillLoginForm = async (page: any, email: string, password: string) => {
+  await page.getByRole("textbox", { name: "Email" }).fill(email);
+  await page.getByRole("textbox", { name: "Password" }).fill(password);
+  await page.getByRole("button", { name: "Sign in" }).click();
+};
+
+const fillSignupForm = async (page: any, username: string, email: string, password: string) => {
+  await page.getByRole("textbox", { name: "Username" }).fill(username);
+  await page.getByRole("textbox", { name: "Email" }).fill(email);
+  await page.getByRole("textbox", { name: "Password" }).fill(password);
+  await page.getByRole("button", { name: "Sign up" }).click();
+};
+
 test.describe("invalid login test", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("");
-    await expect(page.getByRole("heading", { name: "conduit" })).toBeVisible();
+    await navigateToHomepage(page);
   });
 
   test("should login with invalid credentials", async ({ page }) => {
-    await page.getByRole("link", { name: "Sign in" }).click();
-    await page.getByRole("textbox", { name: "Email" }).fill("Hello@world.com");
-    await page
-      .getByRole("textbox", { name: "Password" })
-      .fill(defaultData.userCredentials[0].password);
-    await page.getByRole("button", { name: "Sign in" }).click();
-
+    await navigateToSignIn(page);
+    await fillLoginForm(page, "Hello@world.com", defaultData.userCredentials[0].password);
+    
     await expect(page.getByText("body Invalid credentials")).toBeVisible();
   });
 });
 
 test.describe("user sign up test", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("");
-    await page.getByRole("link", { name: "Sign up" }).click();
-    await expect(page.getByRole("heading", { name: "Sign up" })).toBeVisible();
+    await navigateToHomepage(page);
+    await navigateToSignUp(page);
   });
+  
   test("user can sign up", async ({ page }) => {
     await expect(page.getByText("Have an account?")).toBeVisible();
-
-    await page.getByRole("textbox", { name: "Username" }).fill(userName);
-    await page.getByRole("textbox", { name: "Email" }).fill(userEmail);
-    await page.getByRole("textbox", { name: "Password" }).fill(userPassword);
-    await page.getByRole("button", { name: "Sign up" }).click();
-
+    await fillSignupForm(page, userName, userEmail, userPassword);
+    
     await expect(page.getByText("Your Feed")).toBeVisible();
   });
 });
 
 test.describe("valid login test", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("");
+    await navigateToHomepage(page);
     await signup(userEmail, userPassword, userName);
   });
 
   test("user can sign in", async ({ page }) => {
-    await page.getByRole("link", { name: "Sign in" }).click();
-    await page.getByRole("textbox", { name: "Email" }).fill(userEmail);
-    await page.getByRole("textbox", { name: "Password" }).fill(userPassword);
-    await page.getByRole("button", { name: "Sign in" }).click();
-
+    await navigateToSignIn(page);
+    await fillLoginForm(page, userEmail, userPassword);
+    
     await expect(page.getByRole("link", { name: userName })).toBeVisible();
   });
 });
