@@ -2,11 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const defaultData = {
-  apibaseURL: [
-    {
-      baseURL: "https://www.automationexercise.com",
-    },
-  ],
   uibaseURL: [
     {
       baseURL: "https://demo.realworld.show",

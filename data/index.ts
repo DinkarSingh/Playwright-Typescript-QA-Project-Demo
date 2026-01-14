@@ -1,10 +1,6 @@
 import { z } from "zod";
 import { defaultData } from "./default";
 
-export const apibaseURL = z.object({
-  baseURL: z.url(),
-});
-
 export const uibaseURL = z.object({
   baseURL: z.url(),
 });
@@ -19,7 +15,7 @@ export const userCredentials = z.object({
 });
 
 const dataSchema = z.object({
-  apibaseURL: z.array(apibaseURL),
+  publicAPIbaseURL: z.array(publicAPIbaseURL),
   uibaseURL: z.array(uibaseURL),
   userCredentials: z.array(userCredentials),
 });

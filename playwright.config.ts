@@ -38,7 +38,7 @@ export default defineConfig({
       testDir: "./tests/API",
       use: {
         ...devices["Desktop Chrome"],
-        baseURL: defaultData.apibaseURL[0].baseURL,
+        baseURL: defaultData.publicAPIbaseURL[0].baseURL,
       },
     },
   ],
