@@ -3,7 +3,6 @@ import { test } from "../../fixtures/user";
 import { faker } from "@faker-js/faker";
 import { getCurrentDateFormatted } from "@support/date";
 import { createArticle, deleteArticle } from "../../services/article";
-import { sl } from "zod/v4/locales/index.cjs";
 
 const articalTitle = faker.person.firstName();
 const articalAbout = faker.lorem.sentence();

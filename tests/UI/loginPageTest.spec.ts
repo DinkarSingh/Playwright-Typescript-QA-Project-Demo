@@ -7,7 +7,6 @@ const userName = faker.person.firstName();
 const userEmail = faker.internet.email();
 const userPassword = faker.internet.password({ length: 10 });
 
-// Helper functions to reduce code repetition
 const navigateToHomepage = async (page: any) => {
   await page.goto("");
   await expect(page.getByRole("heading", { name: "conduit" })).toBeVisible();
