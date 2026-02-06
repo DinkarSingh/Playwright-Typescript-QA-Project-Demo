@@ -31,8 +31,6 @@ export const test = base.extend<{ user: { login: () => Promise<string> } }>({
 
         const responseData = await response.json();
         const token = responseData.user.token;
-
-        console.log("Token retrieved:", token);
         return token;
       } catch (error) {
         console.error("Login process failed:", error);
