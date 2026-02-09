@@ -69,6 +69,7 @@ test.describe("Edit and delete the article Tests", () => {
 
   test("user can edit/delete a article", async ({ page }) => {
     await page.goto("/");
+
     await page.getByRole("link", { name: "Your Feed" }).click();
     await page
       .getByRole("listitem")
@@ -76,7 +77,7 @@ test.describe("Edit and delete the article Tests", () => {
       .getByRole("link")
       .click();
     await Promise.all([
-      page.waitForResponse("**/articles?**"),
+      page.waitForResponse(`**/articles/${articalTitle.toLocaleLowerCase()}**`),
       page.getByText(articalTitle).first().click(),
     ]);
 
@@ -85,7 +86,7 @@ test.describe("Edit and delete the article Tests", () => {
     await expect(page.getByText(articalTitle)).toBeVisible();
     await expect(page.getByText(articalDeploymentDate).first()).toBeVisible();
 
-    await page.getByRole("link", { name: " Edit Article" }).first().click();
+    await page.getByRole("link", { name: "Edit Article" }).first().click();
     await page.waitForTimeout(1000);
     await page
       .getByRole("textbox", { name: "Article Title" })
