@@ -1,5 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config();
+import { env } from "../config/env.validation";
 
 export const defaultData = {
   uibaseURL: [
@@ -14,8 +13,8 @@ export const defaultData = {
   ],
   userCredentials: [
     {
-      email: process.env.USER_EMAIL || "",
-      password: process.env.USER_PASSWORD || "",
+      email: env.USER_EMAIL,
+      password: env.USER_PASSWORD,
     },
   ],
 };

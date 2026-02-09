@@ -1,8 +1,8 @@
-import { request } from "@playwright/test";
-import { defaultData } from "./data/default";
+import { validateEnv } from "./config/env.validation";
 import fs from "fs";
 
 export default async function globalSetup() {
+  validateEnv();
   // Only create auth directory if it doesn't exist
   if (!fs.existsSync("auth")) {
     fs.mkdirSync("auth", { recursive: true });
