@@ -340,6 +340,6 @@ This framework demonstrates:
 
 The goal is to showcase not just test automation, but **strategic test architecture** that scales with application complexity.
 
-## ✍️ Best Practices
+## ✍️ Author
 
 Dinkar Singh Karanvanshi
