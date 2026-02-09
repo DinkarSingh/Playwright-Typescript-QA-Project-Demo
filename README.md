@@ -339,3 +339,7 @@ This framework demonstrates:
 • **Real-world patterns** applicable to production testing
 
 The goal is to showcase not just test automation, but **strategic test architecture** that scales with application complexity.
+
+## ✍️ Best Practices
+
+Dinkar Singh Karanvanshi

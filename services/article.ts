@@ -62,7 +62,7 @@ export async function deleteArticle(
 ): Promise<void> {
   const { status } = await httpRequest({
     method: "DELETE",
-    resource: `/articles/${slug}-1`,
+    resource: `/articles/${slug}`,
     token: token,
   });
 

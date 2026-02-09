@@ -3,7 +3,6 @@ import { test } from "../../fixtures/user";
 import { faker } from "@faker-js/faker";
 import { getCurrentDateFormatted } from "@support/date";
 import { createArticle, deleteArticle } from "../../services/article";
-import { sl } from "zod/v4/locales/index.cjs";
 
 const articalTitle = faker.person.firstName();
 const articalAbout = faker.lorem.sentence();
@@ -13,7 +12,7 @@ const articalTag = "api";
 test.describe("New Article Page Test", () => {
   test.beforeEach(async ({ page, user }) => {
     await user.login();
-    await page.goto("#/editor");
+    await page.goto("/editor");
   });
 
   test("user can create a new article", async ({ page }) => {
@@ -55,14 +54,13 @@ test.describe("Edit and delete the article Tests", () => {
   test.beforeEach(async ({ user }) => {
     const token = await user.login();
     token_id = token;
-    const slug = await createArticle(
+    await createArticle(
       articalTitle,
       articalAbout,
       articalContent,
       [articalTag],
       token,
     );
-    userName = slug;
   });
 
   test.afterEach(async () => {
@@ -70,9 +68,15 @@ test.describe("Edit and delete the article Tests", () => {
   });
 
   test("user can edit/delete a article", async ({ page }) => {
-    await page.getByText("Global feed").click();
+    await page.goto("/");
+    await page.getByRole("link", { name: "Your Feed" }).click();
+    await page
+      .getByRole("listitem")
+      .filter({ hasText: "Global Feed" })
+      .getByRole("link")
+      .click();
     await Promise.all([
-      page.waitForResponse("**/articles/?**"),
+      page.waitForResponse("**/articles?**"),
       page.getByText(articalTitle).first().click(),
     ]);
 
@@ -82,11 +86,17 @@ test.describe("Edit and delete the article Tests", () => {
     await expect(page.getByText(articalDeploymentDate).first()).toBeVisible();
 
     await page.getByRole("link", { name: " Edit Article" }).first().click();
+    await page.waitForTimeout(1000);
     await page
       .getByRole("textbox", { name: "Article Title" })
       .fill(updateTitle);
-    await page.getByRole("button", { name: "Publish Article" }).click();
 
+    await Promise.all([
+      page.waitForResponse(`**/articles/${updateTitle.toLocaleLowerCase()}`),
+      page.getByRole("button", { name: "Publish Article" }).click(),
+    ]);
+
+    userName = updateTitle.toLocaleLowerCase();
     await expect(page.getByText(updateTitle).first()).toBeVisible();
     await expect(page.getByText(articalDeploymentDate).first()).toBeVisible();
   });

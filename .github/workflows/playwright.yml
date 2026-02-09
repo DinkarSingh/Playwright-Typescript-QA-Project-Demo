@@ -116,7 +116,7 @@ jobs:
         with:
           name: test-results-summary
           path: playwright-report/*.xml
-      - name: UI Test Results Summary  
+      - name: UI Test Results Summary
         if: always()
         run: |
           echo "📊 UI Test Results Summary:"
