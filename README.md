@@ -322,6 +322,47 @@ The framework integrates with GitHub Actions:
 - **Screenshots**: Captured on test failures
 - **Videos**: Recorded for failed test scenarios
 
+### Allure Reporting (User POV)
+
+From your point of view, Allure gives you a clean, navigable report after each run. The setup here already enables the `allure-playwright` reporter in `playwright.config.ts`, so your job is just to generate and open the report.
+
+**1) (One-time) Install Allure command line**
+
+```bash
+npm install --save-dev allure-commandline
+```
+
+**2) Run tests to produce Allure results**
+
+```bash
+# Full suite
+npx playwright test
+
+# Or just UI / API
+npx playwright test --project=default --workers=1
+npx playwright test --project=public-api --workers=1
+```
+
+This generates raw results in `allure-results/`.
+
+**3) Generate the Allure report**
+
+```bash
+npx allure generate allure-results --clean -o allure-report
+```
+
+**4) Open the report**
+
+```bash
+npx allure open allure-report
+```
+
+**What you will see**
+
+- **Overview dashboard** with pass/fail trends and durations
+- **Suite/test breakdown** for quick triage
+- **Attachments** like screenshots, traces, and videos for failed tests
+
 ### Debugging Features
 
 - **Console logging** for API requests and responses
