@@ -56,11 +56,7 @@ test.describe("invalid login test", () => {
       defaultData.userCredentials[0].password,
     );
 
-    await expect(
-      page.getByText(
-        "network Unable to connect. Please check your internet connection.",
-      ),
-    ).toBeVisible();
+    await expect(page.getByText("credentials invalid")).toBeVisible();
   });
 });
 

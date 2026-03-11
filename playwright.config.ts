@@ -12,6 +12,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: [
     ["list"],
+    ["allure-playwright"],
     ["html", { open: "never" }],
     [
       "junit",
