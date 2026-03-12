@@ -1,0 +1,26 @@
+name: Playwright Reports
+description: Upload Allure results and Blob reports
+inputs:
+  allure_results_artifact_name:
+    description: Artifact name for Allure results
+    required: true
+  blob_artifact_name:
+    description: Artifact name for Blob report
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Upload Allure results
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.allure_results_artifact_name }}
+        path: allure-results/
+        retention-days: 30
+        if-no-files-found: warn
+    - name: Upload Blob report
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.blob_artifact_name }}
+        path: blob-report/
+        retention-days: 30
+        if-no-files-found: warn

@@ -13,6 +13,7 @@ export default defineConfig({
   reporter: [
     ["list"],
     ["allure-playwright"],
+    ["blob"],
     ["html", { open: "never" }],
     [
       "junit",
