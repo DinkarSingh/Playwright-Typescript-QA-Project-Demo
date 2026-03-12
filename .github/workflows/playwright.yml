@@ -10,6 +10,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Playwright common setup
         uses: ./.github/actions/playwright-common
       - name: Run Lint
@@ -21,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: tests
     steps:
+      - uses: actions/checkout@v4
       - name: Playwright common setup
         uses: ./.github/actions/playwright-common
 
@@ -30,6 +32,7 @@ jobs:
     env:
       JUNIT_FILE: playwright-report/api-results.xml
     steps:
+      - uses: actions/checkout@v4
       - name: Playwright common setup
         uses: ./.github/actions/playwright-common
       - name: Run API Tests
@@ -43,6 +46,12 @@ jobs:
             playwright-report/
             test-results/
           retention-days: 30
+      - name: Upload Allure and Blob reports (API)
+        if: always()
+        uses: ./.github/actions/playwright-reports
+        with:
+          allure_artifact_name: allure-report-api
+          blob_artifact_name: blob-report-api
 
   ui_tests:
     runs-on: ubuntu-latest
@@ -51,7 +60,10 @@ jobs:
       USER_EMAIL: ${{ secrets.USER_EMAIL }}
       USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
       JUNIT_FILE: playwright-report/ui-results.xml
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      PIPELINE_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
+      - uses: actions/checkout@v4
       - name: Playwright common setup
         uses: ./.github/actions/playwright-common
       - name: Run UI Tests
@@ -71,10 +83,33 @@ jobs:
         with:
           name: test-results-summary
           path: playwright-report/*.xml
+      - name: Upload Allure and Blob reports (UI)
+        if: always()
+        uses: ./.github/actions/playwright-reports
+        with:
+          allure_artifact_name: allure-report-ui
+          blob_artifact_name: blob-report-ui
 
   notify:
     runs-on: ubuntu-latest
     needs: ui_tests
     steps:
-      - name: Notify
-        run: echo "✅ Tests complete. Notify step finished."
+      - uses: actions/checkout@v4
+      - name: Playwright common setup
+        uses: ./.github/actions/playwright-common
+      - name: Download Blob Report (API)
+        uses: actions/download-artifact@v4
+        with:
+          name: blob-report-api
+          path: blob-report
+      - name: Download Blob Report (UI)
+        uses: actions/download-artifact@v4
+        with:
+          name: blob-report-ui
+          path: blob-report
+      - name: Merge reports and notify Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          PIPELINE_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: npx playwright merge-reports -c playwright.merge.config.ts blob-report
