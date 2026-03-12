@@ -68,7 +68,9 @@ class SlackReporter implements Reporter {
         elements: [
           {
             type: "mrkdwn",
-            text: `Allure report: <${this.pipelineUrl}|open run artifacts>`,
+            text: `Allure report: <${
+              process.env.ALLURE_URL || this.pipelineUrl
+            }|open report>`,
           },
         ],
       },
